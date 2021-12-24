@@ -1,2 +1,1 @@
-# cadbooksfront
-Front-End Cadbooks App
+# CadBooks Front-end
