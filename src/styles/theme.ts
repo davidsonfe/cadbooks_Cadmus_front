@@ -27,12 +27,22 @@ export const theme = createTheme({
     h4: {
       fontFamily: 'Poppins',
     },
+    h5: {
+      fontFamily: 'Poppins',
+    },
+    h6: {
+      fontFamily: 'Poppins',
+    },
     button: {
       fontFamily: 'Poppins',
       color: '#F1F0F5',
     },
     allVariants: {
       color: '#F1F0F5',
+      lineHeight: 1.3,
     },
+    // body1: {
+    //   color: '#222',
+    // },
   },
 });
