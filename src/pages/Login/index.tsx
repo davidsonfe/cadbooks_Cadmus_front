@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import { Stack, TextField, Typography, useMediaQuery } from '@mui/material';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -6,28 +6,18 @@ import Button from '@mui/material/Button';
 
 import BgImage from '../../assets/biblioteca.png';
 import Logo from '../../assets/logo-white.png';
-import { api } from '../../services/api';
-import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../contexts/UserContext';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+
+  const { userLogin, loading } = useContext(UserContext);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
-    // const { data } = await api.post('/login', {
-    //   username,
-    //   password,
-    // });
-
-    // console.log(data);
-
-    console.log('usuario: ', username);
-    console.log('senha: ', password);
-
-    navigate('/painel');
+    userLogin(username, password);
   }
 
   const mobileScreen = useMediaQuery('(max-width: 400px)');
@@ -76,7 +66,7 @@ export default function Login() {
             </Typography>
             <TextField
               required
-              label="Usuário"
+              label="CPF"
               variant="standard"
               color="info"
               onChange={(e) => setUsername(e.target.value)}
@@ -94,7 +84,7 @@ export default function Login() {
               type="submit"
               sx={{ textTransform: 'none', fontWeight: 'bold' }}
             >
-              Entrar
+              {loading ? 'Carregando...' : 'Entrar'}
             </Button>
 
             <Typography

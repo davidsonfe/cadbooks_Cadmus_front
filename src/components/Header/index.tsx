@@ -1,7 +1,11 @@
 import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import { useContext } from 'react';
 import Logo from '../../assets/logo.png';
+import { UserContext } from '../../contexts/UserContext';
 
 export function Header() {
+  const { userLogout } = useContext(UserContext);
+
   return (
     <Box
       py={2}
@@ -25,7 +29,9 @@ export function Header() {
           <Box>
             <Grid container sx={{ alignItems: 'center' }}>
               <Typography color="text.secondary">Yuri Alves</Typography>
-              <Button color="error">Sair</Button>
+              <Button onClick={userLogout} color="error">
+                Sair
+              </Button>
             </Grid>
           </Box>
         </Grid>
