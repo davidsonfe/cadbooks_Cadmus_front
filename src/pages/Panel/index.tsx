@@ -1,23 +1,30 @@
 import { Container, Grid } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { ButtonPanel } from '../../components/ButtonPanel';
 import { Header } from '../../components/Header';
 import Loading from '../../components/Loading';
 import { Title } from '../../components/Title';
+import { UserContext } from '../../contexts/UserContext';
+import { api } from '../../services/api';
 
 export default function Dashboard() {
-  const [loading, setLoading] = useState(true);
-  // if (login) return <Navigate to="/" />;
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
+  // const [loading, setLoading] = useState(true);
+  const { login } = useContext(UserContext);
+  // const [data, setData] = useState([]);
+  if (!login) return <Navigate to="/" />;
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 2000);
+  //
+  // }, []);
+
+  // console.log(data);
 
   return (
     <>
-      {loading && <Loading />}
+      {/* {loading && <Loading />} */}
 
       <Header />
 
