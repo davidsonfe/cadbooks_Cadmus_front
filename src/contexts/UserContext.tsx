@@ -20,12 +20,20 @@ interface UserContextProviderProps {
   children: ReactNode;
 }
 
+// interface ResponseProps {
+//   status: number;
+//   data: {
+//     token: string;
+//   };
+// }
+
 export const UserContext = createContext({} as UserContextType);
 
 export function UserContextProvider({ children }: UserContextProviderProps) {
   const [login, setLogin] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  // let response: any;
 
   const userLogout = useCallback(
     async function () {
@@ -45,6 +53,8 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
         passwd,
       });
 
+      console.log(response);
+
       if (response.status === 200) {
         const { token } = response.data;
         window.localStorage.setItem('token', token);
@@ -56,31 +66,37 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     } catch (error) {
       setLogin(false);
 
+      // if (!response) {
+      //   return toast.error(
+      //     'Ocorreu um erro, por favor tente novamente mais tarde!'
+      //   );
+      // }
+
       return toast.error('CPF ou senha inválidos!');
     } finally {
       setLoading(false);
     }
   }
 
-  useEffect(() => {
-    async function autoLogin() {
-      const token = window.localStorage.getItem('token');
-      if (token) {
-        try {
-          setLoading(true);
+  // useEffect(() => {
+  //   async function autoLogin() {
+  //     const token = window.localStorage.getItem('token');
+  //     if (token) {
+  //       try {
+  //         setLoading(true);
 
-          await userLogin('00099988811', '1234554321');
-        } catch (err) {
-          userLogout();
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setLogin(false);
-      }
-    }
-    autoLogin();
-  }, [userLogout]);
+  //         await userLogin('00099988811', '1234554321');
+  //       } catch (err) {
+  //         userLogout();
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     } else {
+  //       setLogin(false);
+  //     }
+  //   }
+  //   autoLogin();
+  // }, [userLogout]);
 
   return (
     <UserContext.Provider value={{ userLogin, login, loading, userLogout }}>

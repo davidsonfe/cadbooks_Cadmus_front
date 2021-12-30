@@ -38,7 +38,7 @@ export const theme = createTheme({
       color: '#F1F0F5',
     },
     allVariants: {
-      color: '#F1F0F5',
+      color: '#222',
       lineHeight: 1.3,
     },
     // body1: {

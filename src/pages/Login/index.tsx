@@ -61,6 +61,7 @@ export default function Login() {
               mt="28px"
               mb="0px"
               textAlign="center"
+              color="text.primary"
             >
               Entre na sua conta
             </Typography>
@@ -70,6 +71,11 @@ export default function Login() {
               variant="standard"
               color="info"
               onChange={(e) => setUsername(e.target.value)}
+              sx={{
+                '& label': {
+                  color: 'text.primary',
+                },
+              }}
             />
             <TextField
               required
@@ -78,6 +84,14 @@ export default function Login() {
               type="password"
               color="info"
               onChange={(e) => setPassword(e.target.value)}
+              sx={{
+                '& label': {
+                  color: 'text.primary',
+                },
+                '& input:before': {
+                  borderColor: 'text.primary',
+                },
+              }}
             />
             <Button
               variant="contained"
@@ -88,27 +102,11 @@ export default function Login() {
             </Button>
 
             <Typography
-              component="h2"
-              fontSize={16}
-              fontWeight="bold"
-              mt="52px"
-              mb="22px"
-              textAlign="center"
-            >
-              Ainda não possui uma conta?
-            </Typography>
-            <Button
-              variant="contained"
-              color="secondary"
-              sx={{ textTransform: 'none', fontWeight: 'bold' }}
-            >
-              Crie aqui
-            </Button>
-            <Typography
               component="p"
               fontSize={12}
               mt="37px"
               textAlign="center"
+              color="text.primary"
             >
               By Falcon 🦅
             </Typography>
