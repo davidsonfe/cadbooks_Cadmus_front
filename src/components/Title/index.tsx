@@ -11,6 +11,7 @@ export function Title({ title }: TitleProps) {
       color="text.secondary"
       sx={{
         fontWeight: 'bold',
+        mt: 18,
         mb: 6,
         position: 'relative',
         '&::before': {

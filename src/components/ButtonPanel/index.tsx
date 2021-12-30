@@ -21,6 +21,8 @@ export function ButtonPanel({ link, image, text }: ButtonPanelProps) {
               transform: 'translateY(-5px)',
             },
             boxShadow: '5px 8px 8px -1px rgb(0 0 0 / 15%)',
+            border: '1px solid #35D32F',
+            borderRadius: '32px',
           }}
         >
           <CardMedia
@@ -29,6 +31,7 @@ export function ButtonPanel({ link, image, text }: ButtonPanelProps) {
             image={image}
             alt={text}
             title={text}
+            sx={{ objectFit: 'none' }}
           />
           <CardContent>
             <Typography
