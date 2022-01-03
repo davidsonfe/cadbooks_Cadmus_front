@@ -3,6 +3,14 @@ import { Button, Card, Grid, Stack, Typography } from '@mui/material';
 import editIcon from '../../assets/editar.svg';
 import deleteIcon from '../../assets/deletar.svg';
 import checkIcon from '../../assets/check.svg';
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/UserContext';
+import { api } from '../../services/api';
+
+import { toast } from 'react-toastify';
+
+import EmployeersAdd from '../../pages/Employees/EmployeesAdd';
+import { useNavigate } from 'react-router-dom';
 
 interface ManagerCardProps {
   cardType:
@@ -24,6 +32,7 @@ interface ManagerCardProps {
   devolution?: string;
   employee?: string;
   phone?: string;
+  id: string;
 }
 
 export function ManagerCard({
@@ -37,7 +46,59 @@ export function ManagerCard({
   devolution,
   employee,
   phone,
+  id,
 }: ManagerCardProps) {
+  const { userToken } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  async function deleteReader(id: string) {
+    const deleteConfirm = window.confirm(`Tem certeza que deseja deletar?`);
+
+    if (deleteConfirm) {
+      try {
+        const response = await api.delete(`/reader/delete/${id}`, {
+          headers: { Authorization: 'Bearer ' + userToken },
+        });
+
+        if (response.status === 200) {
+          navigate('/painel');
+          navigate('/leitores');
+          return toast.success('Leitor deletado com sucesso');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  async function deleteEmployee(id: string) {
+    const deleteConfirm = window.confirm(`Tem certeza que deseja deletar?`);
+
+    if (deleteConfirm) {
+      try {
+        const response = await api.delete(`/worker/delete/${id}`, {
+          headers: { Authorization: 'Bearer ' + userToken },
+        });
+
+        if (response.status === 200) {
+          navigate('/painel');
+          navigate('/funcionarios');
+          return toast.success('Funcionário deletado com sucesso');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  function handleDelete(id: string) {
+    if (cardType === 'leitor') {
+      deleteReader(id);
+    } else if (cardType === 'funcionario') {
+      deleteEmployee(id);
+    }
+  }
+
   return (
     <Grid item>
       <Card
@@ -223,14 +284,25 @@ export function ManagerCard({
         cardType !== 'obra-atrasada' &&
         cardType !== 'reserva-efetuada' ? (
           <Stack spacing={2}>
-            <Button color={cardType === 'reserva' ? 'success' : 'info'}>
-              {cardType === 'reserva' ? (
+            {cardType === 'reserva' ? (
+              <Button color="success">
                 <img src={checkIcon} alt="Confirmar" />
-              ) : (
+              </Button>
+            ) : (
+              <Button
+                color="info"
+                href={`/${
+                  cardType === 'funcionario'
+                    ? 'funcionarios'
+                    : cardType === 'leitor'
+                    ? 'leitores'
+                    : ''
+                }/editar/${id}`}
+              >
                 <img src={editIcon} alt="Editar" />
-              )}
-            </Button>
-            <Button color="error">
+              </Button>
+            )}
+            <Button color="error" onClick={() => handleDelete(id)}>
               <img src={deleteIcon} alt="Deletar" />
             </Button>
           </Stack>

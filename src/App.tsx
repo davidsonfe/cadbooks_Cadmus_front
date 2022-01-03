@@ -27,10 +27,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/painel" element={<Panel />} />
-            <Route path="/leitores" element={<Readers />} />
+            <Route path="/leitores/*" element={<Readers />} />
             <Route path="/obras" element={<Books />} />
             <Route path="/reservas" element={<Booking />} />
-            <Route path="/funcionarios" element={<Employees />} />
+            <Route path="/funcionarios/*" element={<Employees />} />
             <Route path="/devolucoes" element={<Devolutions />} />
             <Route path="/obras-emprestadas" element={<Borrowed />} />
             <Route path="/obras-atrasadas" element={<DelayedBooks />} />

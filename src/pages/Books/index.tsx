@@ -29,7 +29,7 @@ export default function Books() {
           </Button>
         </Box>
         <Grid container spacing={6}>
-          <ManagerCard
+          {/* <ManagerCard
             cardType="obra"
             bookName="Obra 1"
             author="yuri"
@@ -52,7 +52,7 @@ export default function Books() {
             bookName="Obra 4"
             author="João"
             category="Romance"
-          />
+          /> */}
         </Grid>
       </Container>
       <Footer />

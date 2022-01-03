@@ -22,7 +22,7 @@ export default function DelayedBooks() {
           filtro
         </Box>
         <Grid container spacing={6}>
-          <ManagerCard
+          {/* <ManagerCard
             cardType="obra-atrasada"
             name="Yuri"
             phone="(44) 9 1234-5678"
@@ -45,7 +45,7 @@ export default function DelayedBooks() {
             email="yuri@gmail.com"
             date="27/12/2021"
             devolution="29/12/2021"
-          />
+          /> */}
         </Grid>
       </Container>
       <Footer />

@@ -8,7 +8,7 @@ export function Title({ title }: TitleProps) {
   return (
     <Typography
       variant="h4"
-      color="text.secondary"
+      // color="text.primary"
       sx={{
         fontWeight: 'bold',
         mt: 18,

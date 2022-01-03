@@ -30,7 +30,7 @@ export default function Booking() {
           </Button>
         </Box>
         <Grid container spacing={6}>
-          <ManagerCard
+          {/* <ManagerCard
             cardType="reserva"
             bookName="Obra 1"
             name="yuri"
@@ -57,7 +57,7 @@ export default function Booking() {
             name="joao"
             employee="everton"
             date="29/12/2021"
-          />
+          /> */}
         </Grid>
       </Container>
       <Footer />

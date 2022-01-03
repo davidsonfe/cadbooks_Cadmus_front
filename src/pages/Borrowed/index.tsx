@@ -24,7 +24,7 @@ export default function Borrowed() {
           Revistas
         </Typography>
         <Grid container spacing={6}>
-          <ManagerCard
+          {/* <ManagerCard
             cardType="obra-emprestada"
             bookName="Livro 1"
             name="Yuri"
@@ -54,14 +54,14 @@ export default function Borrowed() {
             name="Yuri"
             date="29/12/2021"
             devolution="12/01/2022"
-          />
+          /> */}
         </Grid>
 
         <Typography variant="h6" sx={{ fontWeight: 'bold', mt: 10 }}>
           Periódicos
         </Typography>
         <Grid container spacing={6}>
-          <ManagerCard
+          {/* <ManagerCard
             cardType="obra-emprestada"
             bookName="Livro 1"
             name="Yuri"
@@ -91,7 +91,7 @@ export default function Borrowed() {
             name="Yuri"
             date="29/12/2021"
             devolution="12/01/2022"
-          />
+          /> */}
         </Grid>
       </Container>
       <Footer />

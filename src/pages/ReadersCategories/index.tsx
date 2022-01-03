@@ -33,14 +33,15 @@ export default function ReadersCategories() {
           <ManagerCard
             cardType="categoria-leitores"
             name="Aluno de graduação"
+            id="23"
           />
-          <ManagerCard
+          {/* <ManagerCard
             cardType="categoria-leitores"
             name="Aluno de pós-graduação"
           />
           <ManagerCard cardType="categoria-leitores" name="Professor" />
           <ManagerCard cardType="categoria-leitores" name="Funcionário" />
-          <ManagerCard cardType="categoria-leitores" name="Usuário externo" />
+          <ManagerCard cardType="categoria-leitores" name="Usuário externo" /> */}
         </Grid>
       </Container>
       <Footer />

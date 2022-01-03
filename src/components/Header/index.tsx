@@ -14,7 +14,7 @@ import { UserContext } from '../../contexts/UserContext';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
 export function Header() {
-  const { userLogout } = useContext(UserContext);
+  const { userLogout, user } = useContext(UserContext);
   const mobileScreen = useMediaQuery('(max-width: 400px)');
 
   return (
@@ -47,7 +47,7 @@ export function Header() {
           </Grid>
           <Box>
             <Grid container sx={{ alignItems: 'center' }}>
-              <Typography color="text.secondary">Yuri Alves</Typography>
+              <Typography>{user?.nome}</Typography>
               <Button
                 onClick={userLogout}
                 color="error"

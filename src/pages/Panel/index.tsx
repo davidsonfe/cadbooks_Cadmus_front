@@ -23,7 +23,7 @@ export default function Dashboard() {
   // const [loading, setLoading] = useState(true);
   const { login } = useContext(UserContext);
   // const [data, setData] = useState([]);
-  // if (!login) return <Navigate to="/" />;
+  if (login === false) return <Navigate to="/" />;
   // useEffect(() => {
   //   setTimeout(() => {
   //     setLoading(false);

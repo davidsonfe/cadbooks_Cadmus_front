@@ -1,4 +1,4 @@
-import { FormEvent, useContext, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { Stack, TextField, Typography, useMediaQuery } from '@mui/material';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -8,19 +8,23 @@ import BgImage from '../../assets/biblioteca.png';
 import Logo from '../../assets/logo-white.png';
 import { UserContext } from '../../contexts/UserContext';
 
+import { Navigate } from 'react-router-dom';
+
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const { userLogin, loading } = useContext(UserContext);
+  const { userLogin, loading, login } = useContext(UserContext);
+
+  const mobileScreen = useMediaQuery('(max-width: 400px)');
+
+  if (login === true) return <Navigate to="/painel" />;
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
     userLogin(username, password);
   }
-
-  const mobileScreen = useMediaQuery('(max-width: 400px)');
 
   const stylesContainer = {
     minWidth: '100vw',
@@ -61,7 +65,7 @@ export default function Login() {
               mt="28px"
               mb="0px"
               textAlign="center"
-              color="text.primary"
+              color="text.secondary"
             >
               Entre na sua conta
             </Typography>
@@ -73,7 +77,11 @@ export default function Login() {
               onChange={(e) => setUsername(e.target.value)}
               sx={{
                 '& label': {
-                  color: 'text.primary',
+                  color: 'text.secondary',
+                },
+                '& input': { color: 'text.secondary' },
+                '& div::before': {
+                  borderColor: 'text.secondary',
                 },
               }}
             />
@@ -86,10 +94,13 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
               sx={{
                 '& label': {
-                  color: 'text.primary',
+                  color: 'text.secondary',
                 },
-                '& input:before': {
-                  borderColor: 'text.primary',
+                '& input': {
+                  color: 'text.secondary',
+                },
+                '& div::before': {
+                  borderColor: 'text.secondary',
                 },
               }}
             />
@@ -106,7 +117,7 @@ export default function Login() {
               fontSize={12}
               mt="37px"
               textAlign="center"
-              color="text.primary"
+              color="text.secondary"
             >
               By Falcon 🦅
             </Typography>

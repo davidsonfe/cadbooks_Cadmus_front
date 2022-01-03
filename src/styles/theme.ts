@@ -10,8 +10,8 @@ export const theme = createTheme({
       main: '#114D9A',
     },
     text: {
-      primary: '#F1F0F5',
-      secondary: '#222',
+      primary: '#222',
+      secondary: '#F1F0F5',
     },
   },
   typography: {

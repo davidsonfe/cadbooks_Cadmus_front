@@ -22,7 +22,7 @@ export default function DoneBooking() {
           filtro
         </Box>
         <Grid container spacing={6}>
-          <ManagerCard
+          {/* <ManagerCard
             cardType="reserva-efetuada"
             bookName="Senhor dos anéis"
             name="Davidson Felix"
@@ -50,7 +50,7 @@ export default function DoneBooking() {
             name="Davidson Felix"
             phone=" (81) 9 1234-56789"
             email="davidson@gmail.com"
-          />
+          /> */}
         </Grid>
       </Container>
       <Footer />

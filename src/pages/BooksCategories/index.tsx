@@ -29,7 +29,7 @@ export default function BooksCategories() {
           </Button>
         </Box>
         <Grid container spacing={6}>
-          <ManagerCard cardType="categoria-obras" name="Livro" />
+          {/* <ManagerCard cardType="categoria-obras" name="Livro" />
           <ManagerCard cardType="categoria-obras" name="Periódico" />
           <ManagerCard cardType="categoria-obras" name="Revista" />
           <ManagerCard cardType="categoria-obras" name="Nota didática" />
@@ -39,7 +39,7 @@ export default function BooksCategories() {
           <ManagerCard
             cardType="categoria-obras"
             name="Dissertação de mestrado"
-          />
+          /> */}
         </Grid>
       </Container>
       <Footer />

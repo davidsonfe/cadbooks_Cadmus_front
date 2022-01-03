@@ -36,7 +36,7 @@ export function ButtonPanel({ link, image, text }: ButtonPanelProps) {
           <CardContent>
             <Typography
               variant="h6"
-              color="text.secondary"
+              // color="text.secondary"
               sx={{ textAlign: 'center' }}
             >
               {text}
