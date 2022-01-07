@@ -1,35 +1,53 @@
-# CadBooks Front-end
 
+<h1 align="center">
+<br>
+  <img src="https://user-images.githubusercontent.com/61193894/147864013-f17538a4-63a7-4730-b21d-73a2dd4bf47a.png" alt="FOODFY" width="316">
+<br>
+<br>
+</h1>
 
-<center>
-  
-![Cadbooks](https://user-images.githubusercontent.com/61193894/147864013-f17538a4-63a7-4730-b21d-73a2dd4bf47a.png)
-  
-</center>
-
-###### ______________________________________________________________________________________________________
-
- Cadbooks é um sistema(site) para a Biblioteca da Cadmus consiste do gerenciamento dos empréstimos de obras literárias,
+<p align="center">Cadbooks é um sistema(site) para a Biblioteca da Cadmus consiste do gerenciamento dos empréstimos de obras literárias,
  bem como da devolução dessas obras. O sistema deve emitir diversos tipos de relatórios e consultas, possibilitando um melhor 
- gerenciamento dos empréstimos 
- 
-###### ______________________________________________________________________________________________________
+ gerenciamento dos empréstimos </p>
  
  
-## 🚀 Tecnologias utilizadas
+## :rocket: Tecnologias utilizadas
 
-Node      | Reactjs   |  Mongodb   |
---------- | --------- | -----------|
-Versão lts| Versão    |  versão    |
+- **ReactJS**
+- **Typescript**
+- **Material UI**
+- **Toastfy**
+- **ReactCSV**
 
-###### _______________________________________________________________________________________________________
+## :construction_worker: Instalação
 
-## 👨‍💻 Instalação
-Para executar essa aplicação você precisará ter instalado em sua máquina o Git, Node e Reactjs, Mongodb.
+Para executar essa aplicação você precisará ter instalado em sua máquina o [Git][git] e o [Node][node]
 
-Após isso, siga os passos abaixo:
+<p>Após isso, siga os passos abaixo:</p>
 
-###### _______________________________________________________________________________________________________
+```bash
+# No terminal, clone o repositório com o comando:
+$ git clone https://github.com/team-falcon0/cadbooksfront
 
-Feito com 🧡 pelo time Falcon 🦅
+# Entre no diretório:
+$ cd cadbooksfront
+
+# Instale as dependências
+$ npm install
+```
+
+## Executando a aplicação
+
+```bash
+# Certifique-se de estar no diretório cadbooksfront
+
+# Execute a aplicação:
+$ npm start
+```
+
+* Para testar o Front-End, é necessário que execute o Back-End, que está nesse repositório: https://github.com/team-falcon0/cadbooks
+* A aplicação estará sendo executada na porta 3000 (http://localhost:3000)
+* A senha para o funcionário adiministrador teste é **123**.
+
+<p align="center">Feito com 🧡 por Equipe Falcon 🦅</p>
 
