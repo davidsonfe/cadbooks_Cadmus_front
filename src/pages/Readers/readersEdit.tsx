@@ -135,13 +135,13 @@ export default function ReadersEdit() {
           headers: { Authorization: 'Bearer ' + userToken },
         }
       );
-      console.log(response);
       if (response.status === 200) {
         toast.success('Leitor atualizado com sucesso');
         navigate('/leitores');
       }
     } catch (error) {
-      throw new Error('deu erro');
+      toast.error('Por favor, revise os dados e tente novamente');
+      console.log(error);
     }
   }
 

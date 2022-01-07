@@ -43,7 +43,13 @@ export function BookCard({
         }}
       >
         <CardContent>
-          <Typography variant="h5" align="center" sx={{ fontWeight: 'bold' }}>
+          <Typography
+            variant="h5"
+            align="center"
+            noWrap={true}
+            title={name}
+            sx={{ fontWeight: 'bold', maxWidth: '291px' }}
+          >
             {name}
           </Typography>
           {authors && (

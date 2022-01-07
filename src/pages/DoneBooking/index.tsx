@@ -11,6 +11,7 @@ import { api } from '../../services/api';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 import { CSVLink } from 'react-csv';
+import { Navigate } from 'react-router-dom';
 
 interface BookingProps {
   nome: string;
@@ -22,7 +23,7 @@ interface BookingProps {
 export default function DoneBooking() {
   const [bookings, setBookings] = useState<BookingProps[]>([]);
 
-  const { userToken } = useContext(UserContext);
+  const { userToken, user } = useContext(UserContext);
 
   useEffect(() => {
     async function getData() {
@@ -40,6 +41,8 @@ export default function DoneBooking() {
     }
     getData();
   }, [userToken]);
+
+  if (user.admin !== true) return <Navigate to="/painel" />;
 
   return (
     <>

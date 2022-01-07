@@ -86,7 +86,8 @@ export default function EmployeersEdit() {
         navigate('/funcionarios');
       }
     } catch (error) {
-      throw new Error('deu erro');
+      toast.error('Por favor, revise os dados e tente novamente');
+      console.log(error);
     }
   }
 

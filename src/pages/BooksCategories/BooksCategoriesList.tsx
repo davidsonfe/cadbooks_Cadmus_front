@@ -21,7 +21,7 @@ type CategoryType = {
 export default function BooksCategoriesList() {
   const [categories, setCategories] = useState<CategoryType[]>([]);
 
-  const { userToken, login } = useContext(UserContext);
+  const { userToken, user } = useContext(UserContext);
 
   useEffect(() => {
     async function getData() {
@@ -39,6 +39,8 @@ export default function BooksCategoriesList() {
     }
     getData();
   }, [userToken]);
+
+  // if (user.admin !== true) return <Navigate to="/painel" />;
 
   // if (login === false) return <Navigate to="/" />;
 

@@ -14,11 +14,12 @@ export default function BooksCategoriesAdd() {
   const [limitDays, setLimitDays] = useState('');
   const [penalty, setPenalty] = useState('');
 
-  const { userToken, login } = useContext(UserContext);
+  const { userToken, user } = useContext(UserContext);
 
   const navigate = useNavigate();
 
   // if (login === false) return <Navigate to="/" />;
+  // if (user.admin !== true) return <Navigate to="/painel" />;
 
   async function addCategory(e: FormEvent) {
     e.preventDefault();

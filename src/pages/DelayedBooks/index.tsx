@@ -10,6 +10,7 @@ import { UserContext } from '../../contexts/UserContext';
 import { api } from '../../services/api';
 
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { Navigate } from 'react-router-dom';
 
 interface BookProps {
   nome: string;
@@ -21,7 +22,7 @@ interface BookProps {
 
 export default function DelayedBooks() {
   const [books, setBooks] = useState([]);
-  const { userToken } = useContext(UserContext);
+  const { userToken, user } = useContext(UserContext);
 
   useEffect(() => {
     async function getData() {
@@ -39,6 +40,8 @@ export default function DelayedBooks() {
     }
     getData();
   }, [userToken]);
+
+  if (user.admin !== true) return <Navigate to="/painel" />;
 
   return (
     <>

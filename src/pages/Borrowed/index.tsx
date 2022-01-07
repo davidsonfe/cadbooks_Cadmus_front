@@ -8,6 +8,7 @@ import { Title } from '../../components/Title';
 import { UserContext } from '../../contexts/UserContext';
 import { api } from '../../services/api';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { Navigate } from 'react-router-dom';
 
 interface BookProps {
   dt_empr: string;
@@ -19,7 +20,7 @@ interface BookProps {
 
 export default function Borrowed() {
   const [books, setBooks] = useState([]);
-  const { userToken, login } = useContext(UserContext);
+  const { userToken, user } = useContext(UserContext);
 
   useEffect(() => {
     async function getData() {
@@ -39,6 +40,7 @@ export default function Borrowed() {
   }, [userToken]);
 
   // if (login === false) return <Navigate to="/" />;
+  if (user.admin !== true) return <Navigate to="/painel" />;
 
   return (
     <>

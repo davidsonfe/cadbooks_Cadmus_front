@@ -58,7 +58,6 @@ export default function ReaderCategoriesEdit() {
         toast.success('Categoria atualizada com sucesso');
         navigate('/categorias-leitores');
       }
-      console.log(response);
     } catch (error) {
       throw new Error('deu erro');
     }

@@ -18,7 +18,7 @@ export default function BooksCategoriesEdit() {
   const [limitDays, setLimitDays] = useState('');
   const [penalty, setPenalty] = useState('');
 
-  const { userToken, login } = useContext(UserContext);
+  const { userToken, user } = useContext(UserContext);
 
   useEffect(() => {
     async function getData() {
@@ -44,6 +44,7 @@ export default function BooksCategoriesEdit() {
   const navigate = useNavigate();
 
   // if (login === false) return <Navigate to="/" />;
+  // if (user.admin !== true) return <Navigate to="/painel" />;
 
   async function updateCategory(e: FormEvent) {
     e.preventDefault();
