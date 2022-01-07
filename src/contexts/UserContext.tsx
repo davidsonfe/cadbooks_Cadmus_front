@@ -138,7 +138,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     }
     autoLogin();
   }, []);
-  console.log(userToken);
+  // console.log(userToken);
 
   return (
     <UserContext.Provider
