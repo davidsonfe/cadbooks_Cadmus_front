@@ -17,25 +17,38 @@ import Footer from '../../components/Footer';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { api } from '../../services/api';
 import { UserContext } from '../../contexts/UserContext';
-import { Navigate, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 type categoryType = {
   cat_id: string;
   desc_cat: string;
   dias_limite: number;
+  multa: number;
 };
 
-export default function ReadersAdd() {
-  const [categories, setCategories] = useState<categoryType[]>([]);
+export default function BooksAdd() {
+  const [code, setCode] = useState('');
+  const [title, setTitle] = useState('');
+  const [category, setCategory] = useState({} as categoryType);
+  const [authors, setAuthors] = useState('');
+  const [keywords, setKeywords] = useState('');
+  const [publicationYear, setPublicationYear] = useState('');
+  const [edition, setEdition] = useState('');
+  const [pages, setPages] = useState('');
+  const [publisher, setPublisher] = useState('');
 
   const { userToken, login } = useContext(UserContext);
+
+  const navigate = useNavigate();
+
+  const [categories, setCategories] = useState<categoryType[]>([]);
 
   useEffect(() => {
     async function getCategories() {
       try {
         if (userToken) {
-          const response = await api.get('/reader_cat/findall', {
+          const response = await api.get('/book_cat/findall', {
             headers: { Authorization: 'Bearer ' + userToken },
           });
 
@@ -50,56 +63,44 @@ export default function ReadersAdd() {
     getCategories();
   }, [userToken]);
 
-  const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [phone, setPhone] = useState('');
-  const [birthDate, setBirthDate] = useState('');
-  const [cpf, setCpf] = useState('');
-  const [email, setEmail] = useState('');
-  const [category, setCategory] = useState({} as categoryType);
-
-  const navigate = useNavigate();
-
   // if (login === false) return <Navigate to="/" />;
 
-  async function addReader(e: FormEvent) {
+  async function addBook(e: FormEvent) {
     e.preventDefault();
 
-    try {
-      if (userToken) {
+    if (userToken) {
+      try {
         const response = await api.post(
-          '/reader/register',
+          '/books/register',
           {
-            nome: name,
-            endereco: address,
-            cidade: city,
-            estado: state,
-            tel: phone,
-            email,
-            doc_id: cpf,
-            dt_nasc: birthDate,
+            isn_id: code,
+            titulo: title,
+            autores: authors,
+            plv_chave: keywords,
+            editora: publisher,
+            num_pag: pages,
+            num_ed: edition,
+            dt_public: publicationYear,
+            emprestado: false,
+            reservado: false,
             categoria: {
               cat_id: category.cat_id,
               desc_cat: category.desc_cat,
               dias_limite: category.dias_limite,
+              multa: category.multa,
             },
           },
           {
-            headers: {
-              Authorization: 'Bearer ' + userToken,
-            },
+            headers: { Authorization: 'Bearer ' + userToken },
           }
         );
-
         if (response.status === 200) {
-          toast.success('Leitor adicionado com sucesso');
-          navigate('/leitores');
+          toast.success('Obra adicionada com sucesso');
+          navigate('/obras');
         }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      throw new Error('deu erro');
     }
   }
 
@@ -107,53 +108,24 @@ export default function ReadersAdd() {
     <>
       <Header />
       <Container sx={{ pb: 6 }}>
-        <Title title="Adicionar leitor" />
+        <Title title="Adicionar obra" />
         <Box component="form" sx={{ display: 'flex', flexDirection: 'column' }}>
           <Stack spacing={4}>
             <Grid container sx={{ justifyContent: 'space-around', gap: 4 }}>
               <Grid item>
                 <TextField
                   required
-                  label="Nome"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  label="Código"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
                 />
               </Grid>
               <Grid item>
                 <TextField
                   required
-                  label="Telefone"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-              </Grid>
-
-              <Grid item>
-                <TextField
-                  required
-                  label="E-mail"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container sx={{ justifyContent: 'space-around', gap: 4 }}>
-              <Grid item>
-                <TextField
-                  required
-                  label="Endereço"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-              </Grid>
-              <Grid item>
-                <TextField
-                  required
-                  label="Data de nascimento"
-                  value={birthDate}
-                  onChange={(e) => setBirthDate(e.target.value)}
+                  label="Título"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
               </Grid>
               <Grid item>
@@ -192,26 +164,57 @@ export default function ReadersAdd() {
               <Grid item>
                 <TextField
                   required
-                  label="Cidade"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
+                  label="Autores"
+                  value={authors}
+                  onChange={(e) => setAuthors(e.target.value)}
                 />
               </Grid>
               <Grid item>
                 <TextField
                   required
-                  label="UF"
-                  value={state}
-                  onChange={(e) => setState(e.target.value)}
+                  multiline
+                  label="Palavras-chave"
+                  value={keywords}
+                  sx={{ minWidth: '223px' }}
+                  onChange={(e) => setKeywords(e.target.value)}
                 />
               </Grid>
+              <Grid item>
+                <TextField
+                  required
+                  type="number"
+                  label="Ano de publicação"
+                  value={publicationYear}
+                  onChange={(e) => setPublicationYear(e.target.value)}
+                />
+              </Grid>
+            </Grid>
 
+            <Grid container sx={{ justifyContent: 'space-around', gap: 4 }}>
               <Grid item>
                 <TextField
                   required
-                  label="CPF"
-                  value={cpf}
-                  onChange={(e) => setCpf(e.target.value)}
+                  type="number"
+                  label="Número da edição"
+                  value={edition}
+                  onChange={(e) => setEdition(e.target.value)}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  required
+                  type="number"
+                  label="Número de páginas"
+                  value={pages}
+                  onChange={(e) => setPages(e.target.value)}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  required
+                  label="Editora"
+                  value={publisher}
+                  onChange={(e) => setPublisher(e.target.value)}
                 />
               </Grid>
             </Grid>
@@ -226,7 +229,7 @@ export default function ReadersAdd() {
               alignSelf: 'center',
               py: 1.8,
             }}
-            onClick={addReader}
+            onClick={addBook}
           >
             Adicionar
           </Button>

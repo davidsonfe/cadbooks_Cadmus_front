@@ -3,11 +3,11 @@ import {
   Button,
   Container,
   FormControl,
+  FormControlLabel,
+  FormLabel,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
+  Radio,
+  RadioGroup,
   Stack,
   TextField,
 } from '@mui/material';
@@ -17,17 +17,14 @@ import Footer from '../../components/Footer';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { api } from '../../services/api';
 import { UserContext } from '../../contexts/UserContext';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 export default function EmployeersEdit() {
   const query = useLocation();
   const id = query.pathname.split('/editar/')[1];
-  console.log(id);
 
-  // const [employee, setEmployee] = useState();
-
-  const { userToken } = useContext(UserContext);
+  const { userToken, login } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -38,23 +35,31 @@ export default function EmployeersEdit() {
   const [phone, setPhone] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [cpf, setCpf] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     async function getData() {
-      const response = await api.get(`/worker/findone/${id}`, {
-        headers: { Authorization: 'Bearer ' + userToken },
-      });
+      try {
+        const response = await api.get(`/worker/findone/${id}`, {
+          headers: { Authorization: 'Bearer ' + userToken },
+        });
 
-      setName(response.data[0].nome);
-      setAddress(response.data[0].endereco);
-      setCity(response.data[0].cidade);
-      setState(response.data[0].estado);
-      setPhone(response.data[0].tel);
-      setBirthDate(response.data[0].dt_nasc);
-      setCpf(response.data[0].cpf);
+        setName(response.data[0].nome);
+        setAddress(response.data[0].endereco);
+        setCity(response.data[0].cidade);
+        setState(response.data[0].estado);
+        setPhone(response.data[0].tel);
+        setBirthDate(response.data[0].dt_nasc);
+        setCpf(response.data[0].cpf);
+        setIsAdmin(response.data[0].admin);
+      } catch (error) {
+        console.log(error);
+      }
     }
     getData();
   }, [id, userToken]);
+
+  // if (login === false) return <Navigate to="/" />;
 
   async function editEmployee(e: FormEvent) {
     e.preventDefault();
@@ -70,6 +75,7 @@ export default function EmployeersEdit() {
           tel: phone,
           cpf,
           dt_nasc: birthDate,
+          admin: isAdmin,
         },
         {
           headers: { Authorization: 'Bearer ' + userToken },
@@ -156,6 +162,30 @@ export default function EmployeersEdit() {
                   value={cpf}
                   onChange={(e) => setCpf(e.target.value)}
                 />
+              </Grid>
+
+              <Grid item>
+                <FormControl component="fieldset" sx={{ minWidth: '223px' }}>
+                  <FormLabel component="legend">Administrador</FormLabel>
+                  <RadioGroup
+                    aria-label="Administrador"
+                    name="radio-buttons-group"
+                    row
+                    value={isAdmin}
+                    onChange={() => setIsAdmin(!isAdmin)}
+                  >
+                    <FormControlLabel
+                      value="false"
+                      control={<Radio />}
+                      label="Não"
+                    />
+                    <FormControlLabel
+                      value="true"
+                      control={<Radio />}
+                      label="Sim"
+                    />
+                  </RadioGroup>
+                </FormControl>
               </Grid>
             </Grid>
           </Stack>

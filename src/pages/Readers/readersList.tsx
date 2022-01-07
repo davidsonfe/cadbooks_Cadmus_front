@@ -7,6 +7,7 @@ import Footer from '../../components/Footer';
 import { useContext, useEffect, useState } from 'react';
 import { api } from '../../services/api';
 import { UserContext } from '../../contexts/UserContext';
+import { Navigate } from 'react-router-dom';
 
 interface ReaderProps {
   categoria: {
@@ -19,30 +20,31 @@ interface ReaderProps {
   nome: string;
 }
 
-// interface ReadersProps {
-//   readersList: ReaderProps[];
-// }
-
 export default function ReadersList() {
   const [readers, setReaders] = useState<ReaderProps[]>([]);
-  const { userToken } = useContext(UserContext);
+
+  const { userToken, login } = useContext(UserContext);
 
   useEffect(() => {
     async function getData() {
       try {
-        const response = await api.get('/reader/findall', {
-          headers: {
-            Authorization: 'Bearer ' + userToken,
-          },
-        });
+        if (userToken) {
+          const response = await api.get('/reader/findall', {
+            headers: {
+              Authorization: 'Bearer ' + userToken,
+            },
+          });
 
-        setReaders(response.data);
+          setReaders(response.data);
+        }
       } catch (error) {
         console.log(error);
       }
     }
     getData();
   }, [userToken]);
+
+  // if (login === false) return <Navigate to="/" />;
 
   return (
     <>

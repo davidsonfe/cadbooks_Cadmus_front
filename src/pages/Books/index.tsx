@@ -1,61 +1,15 @@
-import { Box, Button, Container, Grid } from '@mui/material';
-import { Header } from '../../components/Header';
-import { Title } from '../../components/Title';
+import { Route, Routes } from 'react-router-dom';
 
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import { ManagerCard } from '../../components/ManagerCard';
-import Footer from '../../components/Footer';
+import BooksAdd from './BooksAdd';
+import BooksEdit from './BooksEdit';
+import BooksList from './BooksList';
 
-export default function Books() {
+export default function ReaderCategories() {
   return (
-    <>
-      <Header />
-      <Container sx={{ pb: 6 }}>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'flex-end',
-            justifyContent: 'space-between',
-            mb: 4,
-          }}
-        >
-          <Title title="Gerenciar obras literárias" />
-          <Button
-            variant="contained"
-            startIcon={<AddRoundedIcon />}
-            sx={{ py: 1.5 }}
-          >
-            Adicionar obra
-          </Button>
-        </Box>
-        <Grid container spacing={6}>
-          {/* <ManagerCard
-            cardType="obra"
-            bookName="Obra 1"
-            author="yuri"
-            category="Romance"
-          />
-          <ManagerCard
-            cardType="obra"
-            bookName="Obra 2"
-            author="Davidson"
-            category="Ação"
-          />
-          <ManagerCard
-            cardType="obra"
-            bookName="Obra 3"
-            author="Lena"
-            category="Aventura"
-          />
-          <ManagerCard
-            cardType="obra"
-            bookName="Obra 4"
-            author="João"
-            category="Romance"
-          /> */}
-        </Grid>
-      </Container>
-      <Footer />
-    </>
+    <Routes>
+      <Route path="/" element={<BooksList />} />
+      <Route path="/adicionar" element={<BooksAdd />} />
+      <Route path="/editar/:id" element={<BooksEdit />} />
+    </Routes>
   );
 }

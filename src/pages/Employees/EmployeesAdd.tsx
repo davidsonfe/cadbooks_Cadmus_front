@@ -3,22 +3,22 @@ import {
   Button,
   Container,
   FormControl,
+  FormControlLabel,
+  FormLabel,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
+  Radio,
+  RadioGroup,
   Stack,
   TextField,
 } from '@mui/material';
 import { Header } from '../../components/Header';
 import { Title } from '../../components/Title';
 import Footer from '../../components/Footer';
-import { FormEvent, useContext, useEffect, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import { api } from '../../services/api';
 import { UserContext } from '../../contexts/UserContext';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function EmployeersAdd() {
   const [name, setName] = useState('');
@@ -29,10 +29,13 @@ export default function EmployeersAdd() {
   const [birthDate, setBirthDate] = useState('');
   const [cpf, setCpf] = useState('');
   const [password, setPassword] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  const { userToken } = useContext(UserContext);
+  const { userToken, login } = useContext(UserContext);
 
   const navigate = useNavigate();
+
+  // if (login === false) return <Navigate to="/" />;
 
   async function addEmployee(e: FormEvent) {
     e.preventDefault();
@@ -49,6 +52,7 @@ export default function EmployeersAdd() {
           dt_nasc: birthDate,
           cpf,
           passwd: password,
+          admin: isAdmin,
         },
         {
           headers: { Authorization: 'Bearer ' + userToken },
@@ -58,7 +62,6 @@ export default function EmployeersAdd() {
         toast.success('Funcionário adicionado com sucesso');
         navigate('/funcionarios');
       }
-      console.log(response);
     } catch (error) {
       throw new Error('deu erro');
     }
@@ -144,6 +147,29 @@ export default function EmployeersAdd() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+              </Grid>
+              <Grid item>
+                <FormControl component="fieldset" sx={{ minWidth: '223px' }}>
+                  <FormLabel component="legend">Administrador</FormLabel>
+                  <RadioGroup
+                    aria-label="Administrador"
+                    name="radio-buttons-group"
+                    row
+                    value={isAdmin}
+                    onChange={() => setIsAdmin(!isAdmin)}
+                  >
+                    <FormControlLabel
+                      value="false"
+                      control={<Radio />}
+                      label="Não"
+                    />
+                    <FormControlLabel
+                      value="true"
+                      control={<Radio />}
+                      label="Sim"
+                    />
+                  </RadioGroup>
+                </FormControl>
               </Grid>
             </Grid>
           </Stack>

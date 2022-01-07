@@ -26,10 +26,11 @@ interface ManagerCardProps {
   name?: string;
   bookName?: string;
   email?: string;
-  author?: string;
+  authors?: string;
   category?: string;
   date?: string;
   devolution?: string;
+  withdraw?: string;
   employee?: string;
   phone?: string;
   id: string;
@@ -40,10 +41,11 @@ export function ManagerCard({
   name,
   bookName,
   email,
-  author,
+  authors,
   category,
   date,
   devolution,
+  withdraw,
   employee,
   phone,
   id,
@@ -71,6 +73,26 @@ export function ManagerCard({
     }
   }
 
+  async function deleteReadersCategories(id: string) {
+    const deleteConfirm = window.confirm(`Tem certeza que deseja deletar?`);
+
+    if (deleteConfirm) {
+      try {
+        const response = await api.delete(`/reader_cat/delete/${id}`, {
+          headers: { Authorization: 'Bearer ' + userToken },
+        });
+
+        if (response.status === 200) {
+          navigate('/painel');
+          navigate('/categorias-leitores');
+          return toast.success('Categoria deletada com sucesso');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
   async function deleteEmployee(id: string) {
     const deleteConfirm = window.confirm(`Tem certeza que deseja deletar?`);
 
@@ -91,11 +113,108 @@ export function ManagerCard({
     }
   }
 
+  async function deleteBook(id: string) {
+    const deleteConfirm = window.confirm(`Tem certeza que deseja deletar?`);
+
+    if (deleteConfirm) {
+      try {
+        const response = await api.delete(`/books/delete/${id}`, {
+          headers: { Authorization: 'Bearer ' + userToken },
+        });
+
+        if (response.status === 200) {
+          navigate('/painel');
+          navigate('/obras');
+          return toast.success('Obra deletada com sucesso');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  async function deleteBooksCategories(id: string) {
+    const deleteConfirm = window.confirm(`Tem certeza que deseja deletar?`);
+
+    if (deleteConfirm) {
+      try {
+        const response = await api.delete(`/book_cat/delete/${id}`, {
+          headers: { Authorization: 'Bearer ' + userToken },
+        });
+
+        if (response.status === 200) {
+          navigate('/painel');
+          navigate('/categorias-obras');
+          return toast.success('Categoria deletada com sucesso');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  async function deleteBooking(id: string) {
+    const deleteConfirm = window.confirm(`Tem certeza que deseja deletar?`);
+
+    if (deleteConfirm) {
+      try {
+        const response = await api.delete(`/reserv/delete/${id}`, {
+          headers: { Authorization: 'Bearer ' + userToken },
+        });
+
+        if (response.status === 200) {
+          navigate('/painel');
+          navigate('/reservas');
+          return toast.success('Reserva deletada com sucesso');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
   function handleDelete(id: string) {
     if (cardType === 'leitor') {
       deleteReader(id);
     } else if (cardType === 'funcionario') {
       deleteEmployee(id);
+    } else if (cardType === 'categoria-leitores') {
+      deleteReadersCategories(id);
+    } else if (cardType === 'categoria-obras') {
+      deleteBooksCategories(id);
+    } else if (cardType === 'obra') {
+      deleteBook(id);
+    } else if (cardType === 'reserva') {
+      deleteBooking(id);
+    }
+  }
+
+  async function BookingConfirm() {
+    const bookingConfirm = window.confirm(`Deseja realizar o empréstimo?`);
+
+    if (bookingConfirm) {
+      if (userToken) {
+        try {
+          const response = await api.post(
+            '/borrow/register',
+            {
+              doc_id: name,
+              cpf: employee,
+              isn_id_cop: id,
+            },
+            {
+              headers: { Authorization: 'Bearer ' + userToken },
+            }
+          );
+          if (response.status === 200) {
+            toast.success('Empréstimo realizado com sucesso');
+            navigate('/painel');
+          }
+          console.log(response);
+        } catch (error) {
+          throw new Error('deu erro');
+        }
+      }
     }
   }
 
@@ -141,7 +260,10 @@ export function ManagerCard({
                 Responsável: {employee}
               </Typography>
               <Typography noWrap={true} title={date}>
-                Data de retirada: {date}
+                Data da reserva: {date}
+              </Typography>
+              <Typography noWrap={true} title={withdraw}>
+                Data de retirada: {withdraw}
               </Typography>
             </>
           ) : cardType === 'leitor' ? (
@@ -171,8 +293,8 @@ export function ManagerCard({
               >
                 {bookName}
               </Typography>
-              <Typography noWrap={true} title={author}>
-                Autor: {author}
+              <Typography noWrap={true} title={authors}>
+                Autores: {authors}
               </Typography>
               <Typography noWrap={true} title={category}>
                 {category}
@@ -210,6 +332,9 @@ export function ManagerCard({
               </Typography>
               <Typography noWrap={true} title={devolution}>
                 Devolução: {devolution}
+              </Typography>
+              <Typography noWrap={true} title={category}>
+                Categoria: {category}
               </Typography>
             </>
           ) : cardType === 'obra-atrasada' ? (
@@ -285,7 +410,7 @@ export function ManagerCard({
         cardType !== 'reserva-efetuada' ? (
           <Stack spacing={2}>
             {cardType === 'reserva' ? (
-              <Button color="success">
+              <Button color="success" onClick={BookingConfirm}>
                 <img src={checkIcon} alt="Confirmar" />
               </Button>
             ) : (
@@ -296,6 +421,12 @@ export function ManagerCard({
                     ? 'funcionarios'
                     : cardType === 'leitor'
                     ? 'leitores'
+                    : cardType === 'categoria-leitores'
+                    ? 'categorias-leitores'
+                    : cardType === 'categoria-obras'
+                    ? 'categorias-obras'
+                    : cardType === 'obra'
+                    ? 'obras'
                     : ''
                 }/editar/${id}`}
               >

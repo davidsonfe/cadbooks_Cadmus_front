@@ -17,24 +17,30 @@ import Footer from '../../components/Footer';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { api } from '../../services/api';
 import { UserContext } from '../../contexts/UserContext';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-interface ReaderProps {
-  categoria: {
-    cat_id: string;
-    desc_cat: string;
-    dias_limite: number;
-  };
-  cidade: string;
-  doc_id: string;
-  dt_nasc: string;
-  email: string;
-  endereco: string;
-  estado: string;
-  nome: string;
-  tel: string;
-}
+// interface ReaderProps {
+//   categoria: {
+//     cat_id: string;
+//     desc_cat: string;
+//     dias_limite: number;
+//   };
+//   cidade: string;
+//   doc_id: string;
+//   dt_nasc: string;
+//   email: string;
+//   endereco: string;
+//   estado: string;
+//   nome: string;
+//   tel: string;
+// }
+
+type categoryType = {
+  cat_id: string;
+  desc_cat: string;
+  dias_limite: string;
+};
 
 export default function ReadersEdit() {
   const query = useLocation();
@@ -42,11 +48,31 @@ export default function ReadersEdit() {
 
   const navigate = useNavigate();
 
-  const { userToken } = useContext(UserContext);
+  const { userToken, login } = useContext(UserContext);
+
+  const [categories, setCategories] = useState<categoryType[]>([]);
+
+  useEffect(() => {
+    async function getCategories() {
+      try {
+        if (userToken) {
+          const response = await api.get('/reader_cat/findall', {
+            headers: { Authorization: 'Bearer ' + userToken },
+          });
+
+          if (response.status === 200) {
+            setCategories(response.data);
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getCategories();
+  }, [userToken]);
 
   // const [reader, setReader] = useState({} as ReaderProps);
 
-  const a = ['aluno', 'professor', 'externo'];
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
@@ -55,17 +81,20 @@ export default function ReadersEdit() {
   const [email, setEmail] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [cpf, setCpf] = useState('');
-  const [category, setCategory] = useState({
-    cat_id: '',
-    desc_cat: '',
-    dias_limite: 0,
-  });
+  const [category, setCategory] = useState({} as categoryType);
 
   useEffect(() => {
     async function getData() {
       const response = await api.get(`/reader/findone/${id}`, {
         headers: { Authorization: 'Bearer ' + userToken },
       });
+
+      const catId = response.data[0].categoria.cat_id;
+      const category = categories.find((c) => c.cat_id === catId);
+
+      if (category) {
+        setCategory(category);
+      }
 
       setName(response.data[0].nome);
       setAddress(response.data[0].endereco);
@@ -75,10 +104,11 @@ export default function ReadersEdit() {
       setEmail(response.data[0].email);
       setBirthDate(response.data[0].dt_nasc);
       setCpf(response.data[0].doc_id);
-      setCategory(response.data[0].categoria);
     }
     getData();
-  }, [id, userToken]);
+  }, [id, userToken, categories]);
+
+  // if (login === false) return <Navigate to="/" />;
 
   async function editReader(e: FormEvent) {
     e.preventDefault();
@@ -97,8 +127,8 @@ export default function ReadersEdit() {
           dt_nasc: birthDate,
           categoria: {
             cat_id: category.cat_id,
-            desc_cat: 'aaa',
-            dias_limite: 8,
+            desc_cat: category.desc_cat,
+            dias_limite: category.dias_limite,
           },
         },
         {
@@ -176,16 +206,25 @@ export default function ReadersEdit() {
                     labelId="categoria"
                     label="Categoria"
                     sx={{ minWidth: 223 }}
-                    value={category?.cat_id}
-                    onChange={(e: SelectChangeEvent) =>
-                      setCategory({ ...category, cat_id: e.target.value })
-                    }
+                    value={category.cat_id || ''}
+                    onChange={(e: SelectChangeEvent) => {
+                      const catId = e.target.value;
+                      const category = categories.find(
+                        (c) => c.cat_id === catId
+                      );
+
+                      if (category) {
+                        setCategory(category);
+                      }
+                    }}
                   >
-                    {a.map((categora) => (
-                      <MenuItem key={categora} value={categora}>
-                        {categora}
-                      </MenuItem>
-                    ))}
+                    {categories.map((category: categoryType) => {
+                      return (
+                        <MenuItem key={category.cat_id} value={category.cat_id}>
+                          {category.cat_id}
+                        </MenuItem>
+                      );
+                    })}
                   </Select>
                 </FormControl>
               </Grid>

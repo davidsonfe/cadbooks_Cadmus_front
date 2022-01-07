@@ -1,35 +1,38 @@
 import { Box, Button, Container, Grid } from '@mui/material';
 import { Header } from '../../components/Header';
-import { ManagerCard } from '../../components/ManagerCard';
 import { Title } from '../../components/Title';
 
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import { ManagerCard } from '../../components/ManagerCard';
 import Footer from '../../components/Footer';
 import { useContext, useEffect, useState } from 'react';
-import { api } from '../../services/api';
 import { UserContext } from '../../contexts/UserContext';
+import { api } from '../../services/api';
+import { toast } from 'react-toastify';
 import { Navigate } from 'react-router-dom';
 
-interface EmployeeProps {
-  nome: string;
-  tel: string;
-  cpf: string;
-}
+type CategoryType = {
+  cat_id: string;
+  desc_cat: string;
+  dias_limite: number;
+  multa: number;
+};
 
-export default function EmployeesList() {
-  const [employees, setEmployees] = useState<EmployeeProps[]>([]);
+export default function BooksCategoriesList() {
+  const [categories, setCategories] = useState<CategoryType[]>([]);
+
   const { userToken, login } = useContext(UserContext);
 
   useEffect(() => {
     async function getData() {
       try {
-        const response = await api.get('/worker/findall', {
-          headers: {
-            Authorization: 'Bearer ' + userToken,
-          },
-        });
+        if (userToken) {
+          const response = await api.get('/book_cat/findall', {
+            headers: { Authorization: 'Bearer ' + userToken },
+          });
 
-        setEmployees(response.data);
+          setCategories(response.data);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -51,24 +54,23 @@ export default function EmployeesList() {
             mb: 4,
           }}
         >
-          <Title title="Gerenciar funcionários" />
+          <Title title="Categorias de obras" />
           <Button
             variant="contained"
             startIcon={<AddRoundedIcon />}
+            href="/categorias-obras/adicionar"
             sx={{ py: 1.5 }}
-            href="/funcionarios/adicionar"
           >
-            Adicionar funcionário
+            Adicionar categoria
           </Button>
         </Box>
         <Grid container spacing={6}>
-          {employees.map((employee: EmployeeProps) => (
+          {categories.map((category) => (
             <ManagerCard
-              cardType="funcionario"
-              key={employee.cpf}
-              id={employee.cpf}
-              name={employee.nome}
-              phone={employee.tel}
+              cardType="categoria-obras"
+              key={category.cat_id}
+              id={category.cat_id}
+              name={category.cat_id}
             />
           ))}
         </Grid>

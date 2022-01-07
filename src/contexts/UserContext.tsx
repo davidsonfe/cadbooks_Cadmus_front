@@ -17,6 +17,7 @@ type UserType = {
   // cidade: string;
   // estado: string;
   token: string;
+  admin: boolean;
 };
 
 type UserContextType = {
@@ -137,6 +138,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     }
     autoLogin();
   }, []);
+  console.log(userToken);
 
   return (
     <UserContext.Provider
