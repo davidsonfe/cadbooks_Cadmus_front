@@ -6,9 +6,9 @@
 <br>
 </h1>
 
-<p align="center">Cadbooks é um sistema(site) para a Biblioteca da Cadmus consiste do gerenciamento dos empréstimos de obras literárias,
+<p align="center">Cadbooks é um sistema (site) para a Biblioteca da Cadmus consiste do gerenciamento dos empréstimos de obras literárias,
  bem como da devolução dessas obras. O sistema deve emitir diversos tipos de relatórios e consultas, possibilitando um melhor 
- gerenciamento dos empréstimos </p>
+ gerenciamento dos empréstimos.</p>
  
  
 ## :rocket: Tecnologias utilizadas
@@ -51,3 +51,5 @@ $ npm start
 
 <p align="center">Feito com 🧡 por Equipe Falcon 🦅</p>
 
+[git]: https://git-scm.com/
+[node]: nodejs.org/en/
