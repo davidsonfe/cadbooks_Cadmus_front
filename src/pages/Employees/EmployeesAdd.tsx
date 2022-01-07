@@ -108,6 +108,7 @@ export default function EmployeersAdd() {
                 <TextField
                   required
                   label="Data de nascimento"
+                  placeholder="mm-dd-aaaa"
                   value={birthDate}
                   onChange={(e) => setBirthDate(e.target.value)}
                 />
@@ -125,6 +126,7 @@ export default function EmployeersAdd() {
                 <TextField
                   required
                   label="UF"
+                  placeholder="Ex: SP"
                   value={state}
                   onChange={(e) => setState(e.target.value)}
                 />
@@ -136,6 +138,7 @@ export default function EmployeersAdd() {
                 <TextField
                   required
                   label="CPF"
+                  placeholder="apenas números"
                   value={cpf}
                   onChange={(e) => setCpf(e.target.value)}
                 />

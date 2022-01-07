@@ -9,7 +9,6 @@ import { api } from '../../services/api';
 
 import { toast } from 'react-toastify';
 
-import EmployeersAdd from '../../pages/Employees/EmployeesAdd';
 import { useNavigate } from 'react-router-dom';
 
 interface ManagerCardProps {
@@ -345,7 +344,7 @@ export function ManagerCard({
                 sx={{ fontWeight: 'bold' }}
                 title={name}
               >
-                Emprestado por: {name}
+                {name}
               </Typography>
               <Typography noWrap={true} title={phone}>
                 Telefone: {phone}
